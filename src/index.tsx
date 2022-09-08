@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import Solution from 'pages/Solution';
+import Todos from 'pages/Todos';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'assets/styles.scss';
@@ -16,8 +16,8 @@ const App = () => {
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
                     <Routes>
-                        <Route path='/' element={<Navigate replace to='/solution' />}/>
-                        <Route path='/solution' element={<Solution />}/>
+                      <Route path='/' element={<Navigate replace to='/todos' />}/>
+                      <Route path='/todos' element={<Todos />}/>
                     </Routes>
                 </QueryClientProvider>
             </BrowserRouter>
@@ -25,5 +25,5 @@ const App = () => {
     )
 }
 
-const container = document.getElementById('root')
+const container = document.getElementById('root');
 ReactDOM.render(<App />, container);

@@ -3,7 +3,25 @@ html {
 }
 
 body {
-    margin: 0;
-    padding: 0;
+    margin: 50px 100px;
+    padding: 0px;
     font-family: sans-serif;
+    direction: ltr;
+}
+
+.todo-container {
+    border: 2px solid black;
+}
+
+.todo-filter-text {
+    width: 200px;
+}
+
+.todo-completed-checkbox {
+    margin-top: 27px;
+    margin-left: 29px;
+}
+
+.edited-todo-name {
+    width: 600px;
 }
