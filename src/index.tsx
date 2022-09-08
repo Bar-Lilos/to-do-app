@@ -1,19 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useContext } from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import Solution from 'pages/Solution';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import 'bootstrap/dist/css/bootstrap.css';
+import 'assets/styles.scss';
+
+const queryClient = new QueryClient();
+
+const App = () => {
+    return (
+        <div className='d-flex flex-column h-100'>
+            <BrowserRouter>
+                <QueryClientProvider client={queryClient}>
+                    <Routes>
+                        <Route path='/' element={<Navigate replace to='/solution' />}/>
+                        <Route path='/solution' element={<Solution />}/>
+                    </Routes>
+                </QueryClientProvider>
+            </BrowserRouter>
+        </div>
+    )
+}
+
+const container = document.getElementById('root')
+ReactDOM.render(<App />, container);
