@@ -1,17 +1,14 @@
-export type FetchedTodo = {
-  id: number
-  text: string
-  completed: boolean
-  createdTime?: Date
-  tags?: TodoTag[]
-}
-
-export type Todo = {
+export interface Todo {
   id?: number
   text: string
   completed: boolean
-  creationDate?: string
+  createdTime: string
   tags?: TodoTag[]
+}
+
+export interface FetchedTodo extends Omit<Todo, 'id' | 'createdTime'> {
+  id: number
+  createdTime: Date
 }
 
 export type TodoTag = {

@@ -13,10 +13,9 @@ type Props = {
     setEditedTodo: (todo: Todo) => void
     shouldDelete: boolean
     saveTodo: () => void
-    removeTodo: () => void
 }
 
-const TodoModal: React.FC<Props> = ({isOpen, toggle, editedTodo, setEditedTodo, shouldDelete, saveTodo, removeTodo}) => {
+const TodoModal: React.FC<Props> = ({isOpen, toggle, editedTodo, setEditedTodo, shouldDelete, saveTodo}) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -26,7 +25,7 @@ const TodoModal: React.FC<Props> = ({isOpen, toggle, editedTodo, setEditedTodo, 
                 shouldDelete
                 ?
                 <DeleteTodoModal
-                    removeTodo={removeTodo}
+                    removeTodo={saveTodo}
                     toggle={toggle}
                 />
                 :

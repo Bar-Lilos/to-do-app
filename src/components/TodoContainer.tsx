@@ -14,10 +14,9 @@ const TodoContainer: React.FC<Props> = ({todo, editTodo, deleteTodo}) => {
             <div className='col-9'>
                 <div>{todo.text}</div>
                 <div>{todo.completed.toString()}</div>
-                <div>{todo.creationDate}</div>
-                <div>{JSON.stringify(todo.tags)}</div>
-
+                <div>{todo.createdTime}</div>
             </div>
+            
             <div className='col-3 d-flex flex-row'>
                 <Button
                     id='deleteTodo'
