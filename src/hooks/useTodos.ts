@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { FetchedTodo, Todo } from 'models/Todo';
-import { format } from "date-fns";
-import { parseISO } from 'date-fns/esm';
+import extractIsoDate from 'functions/extractIsoDate';
 import getAllTodos from 'axios/http/getAllTodos';
 import postTodo from 'axios/http/postTodo';
 import patchTodo from 'axios/http/patchTodo';
@@ -12,7 +11,8 @@ const useTodos = () => {
     const initialTodo: Todo = {
         text: '',
         completed: false,
-        createdTime: new Date().toISOString()
+        createdTime: extractIsoDate(),
+        lastUpdated: new Date()
     }
 
     const [allTodos, setAllTodos] = useState<Todo[]>();
@@ -34,8 +34,13 @@ const useTodos = () => {
         setShouldDelete(false);
 
         if (!lodaingTodos && fetchedTodos) {
+            console.log("fetched: ", fetchedTodos);
+            
             setAllTodos(fetchedTodos.map((todo: FetchedTodo) => {
-                return {...todo, createdTime: todo.createdTime.toString()}
+                return {...todo,
+                    createdTime: extractIsoDate(todo.createdTime),
+                    lastUpdated: todo.lastUpdated
+                }
             }))
         }
     }, [fetchedTodos])
@@ -45,11 +50,6 @@ const useTodos = () => {
     }, [todoQuery])
 
     const saveTodo = async () => {
-        if (!editedTodo.text || editedTodo.text === '') {
-            alert('Please insert a task name');
-            return;
-        }
-
         shouldDelete
         ?
         removeTodo()
@@ -58,7 +58,9 @@ const useTodos = () => {
     }
 
     const updateTodo = async () => {
-        patchTodo(editedTodo).then((response) => {
+        const updatedTodo = {...editedTodo, lastUpdated: new Date()};
+
+        patchTodo(updatedTodo).then((response) => {
             alert('Task successfully updated');
             refetchTodos();
         })
@@ -69,7 +71,9 @@ const useTodos = () => {
     }
 
     const addTodo = async () => {
-        postTodo(editedTodo).then((response) => {
+        const addedTodo = {...editedTodo, lastUpdated: new Date()};
+
+        postTodo(addedTodo).then((response) => {
             alert('Task successfully added');
             refetchTodos();
         })

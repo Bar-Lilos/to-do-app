@@ -3,12 +3,12 @@ export interface Todo {
   text: string
   completed: boolean
   createdTime: string
+  lastUpdated: Date
   tags?: TodoTag[]
 }
 
-export interface FetchedTodo extends Omit<Todo, 'id' | 'createdTime'> {
+export interface FetchedTodo extends Omit<Todo, 'id'> {
   id: number
-  createdTime: Date
 }
 
 export type TodoTag = {

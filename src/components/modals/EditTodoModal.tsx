@@ -9,7 +9,7 @@ type Props = {
     saveTodo: () => void
 }
 
-const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) => {    
+const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) => {
     return (
         <>
             <ModalHeader>{editedTodo.id ? 'Edit' : 'New Todo'}</ModalHeader>
@@ -23,6 +23,8 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                         name='todoName'
                         type='text'
                         className='edited-todo-name'
+                        invalid={editedTodo.text === ''}
+                        valid={editedTodo.text !== ''}
                         value={editedTodo.text}
                         onChange={(e: React.FormEvent<HTMLInputElement>) => setEditedTodo({...editedTodo, text: e.currentTarget.value})}
                     />
@@ -51,6 +53,7 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                     name='updateTodo'
                     className='btn-success'
                     onClick={saveTodo}
+                    disabled={editedTodo.text === ''}
                 >
                     Save
                 </Button>

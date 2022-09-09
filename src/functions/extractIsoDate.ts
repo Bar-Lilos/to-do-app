@@ -1,31 +1,33 @@
 // **************************************************
 // function for converting dates to ISO 8601 format
 // Input: date
-// Output: string
+// Output: string (dd/mm/yyyy hh:mm:ss)
 // **************************************************
 
-const extractIsoDate = (data: Date) => {
-    const day = dayOffset('');
-    const month = '';
-    const year = '';
-    const hours = '';
-    const minutes = '';
-    const seconds = '';
+const extractIsoDate = (date?: string) => {
+    const dateFormat = date ? new Date(date) : new Date();
 
-    const formattedDate = day + '/' + month
+    const day = dateOffset(dateFormat.getUTCDate());
+    const month = dateOffset(dateFormat.getUTCMonth() + 1);
+    const year = dateFormat.getFullYear();
+    const hours = dateOffset(dateFormat.getHours());
+    const minutes = dateOffset(dateFormat.getMinutes());
+    const seconds = dateOffset(dateFormat.getSeconds());
+
+    const formattedDate = day + '/' + month + '/' + year + " " + hours + ":" + minutes + ":" + seconds; 
+    return formattedDate;
 }
 
-const dayOffset = (day: string) => {
-    const dayNumber = parseInt(day);
-    let formattedDay;
+const dateOffset = (datePart: number) => {
+    let formattedDatePart;
 
-    dayNumber < 10
+    datePart < 10
     ?
-    formattedDay = ''
+    formattedDatePart = '0' + datePart.toString()
     :
-    formattedDay = ''
+    formattedDatePart = datePart.toString()
 
-    return formattedDay;
+    return formattedDatePart;
 }
 
 export default extractIsoDate;
