@@ -9,6 +9,26 @@ body {
     direction: ltr;
 }
 
+.todos-list {
+    border: 2px solid black;
+    border-radius: 5px;
+
+    .todos-header{
+        border-bottom: 2px solid black;
+
+        .todos-title {
+            text-align: center;
+            padding-right: 86px;
+            padding-bottom: 30px;
+            font-size: 30px;
+        }
+    }
+
+    .todos-content {
+        max-height: 520px;
+    }
+}
+
 .todo-container {
     border: 2px solid black;
 }

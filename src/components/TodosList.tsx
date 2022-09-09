@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
 import { Todo } from 'models/Todo';
+import { TodoDisplay } from 'models/TodoDisplay';
 import TodoContainer from 'components/TodoContainer';
+import NavigationArrows from 'components/navigation/NavigationArrows';
  
 type Props = {
     todos: Todo[]
@@ -11,27 +13,60 @@ type Props = {
 }
 
 const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) => {   
-    return (
-        <div className='d-flex flex-column todos-list'>
-            <Button
-                id='newTodo'
-                name='newTodo'
-                className='btn-success col-3 mb-4'
-                onClick={addNewTodo}
-            >
-                +
-            </Button>
+    const [fromIndex, setFromIndex] = useState(TodoDisplay.firstIndex);
+    const [toIndex, setToIndex] = useState(TodoDisplay.maxTodosPerPage - 1);
 
-            {
-                todos.map((todo: Todo) => (
-                    <TodoContainer
-                        key={todo.id}
-                        todo={todo}
-                        editTodo={() => editTodo(todo)}
-                        deleteTodo={() => deleteTodo(todo)}
-                    />
-                ))
-            }
+    useEffect(() => {
+        fromIndex + TodoDisplay.maxTodosPerPage >= todos.length
+        ?
+        setToIndex(todos.length)
+        :
+        setToIndex(fromIndex + TodoDisplay.maxTodosPerPage)
+    }, [fromIndex])
+
+    useEffect(() => {
+        setFromIndex(TodoDisplay.firstIndex);
+    }, [todos])
+
+    return (
+        <div className='d-flex flex-column todos-list p-5'>
+            <div className='d-flex flex-row todos-header justify-content-between mb-4'>
+                <Button
+                    id='newTodo'
+                    name='newTodo'
+                    className='btn-success col-2 mt-1 h-50'
+                    onClick={addNewTodo}
+                >
+                    +
+                </Button>
+
+                <div className='col-10 todos-title'>My Todos</div>
+            </div>
+
+            <div className='d-flex flex-column'>
+                <div className='mh-100 h-100 todos-content'>
+                    {
+                        todos
+                        .slice(fromIndex, toIndex)
+                        .map((todo: Todo) => (
+                            <TodoContainer
+                                key={todo.id}
+                                todo={todo}
+                                editTodo={() => editTodo(todo)}
+                                deleteTodo={() => deleteTodo(todo)}
+                            />
+                        ))
+                    }
+                </div>
+                
+                <NavigationArrows
+                    moveToNextPage={() => setFromIndex(fromIndex + TodoDisplay.maxTodosPerPage)}
+                    moveToPreviousPage={() => setFromIndex(fromIndex - TodoDisplay.maxTodosPerPage)}
+                    currentIndex={fromIndex}
+                    finalIndex={toIndex}
+                    totalTodos={todos.length}
+                />
+            </div>
         </div>
     );
 }

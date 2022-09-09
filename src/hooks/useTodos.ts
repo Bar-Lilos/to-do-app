@@ -33,9 +33,7 @@ const useTodos = () => {
         setModal(false);
         setShouldDelete(false);
 
-        if (!lodaingTodos && fetchedTodos) {
-            console.log("fetched: ", fetchedTodos);
-            
+        if (!lodaingTodos && fetchedTodos) {            
             setAllTodos(fetchedTodos
                 .map((todo: FetchedTodo) => {
                     return {...todo,
@@ -43,6 +41,7 @@ const useTodos = () => {
                         lastUpdated: todo.lastUpdated
                 }})
                 .sort((t1, t2) => t1.lastUpdated >= t2.lastUpdated ? -1 : 1)
+                .slice()
             )
         }
     }, [fetchedTodos])
