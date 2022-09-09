@@ -36,12 +36,14 @@ const useTodos = () => {
         if (!lodaingTodos && fetchedTodos) {
             console.log("fetched: ", fetchedTodos);
             
-            setAllTodos(fetchedTodos.map((todo: FetchedTodo) => {
-                return {...todo,
-                    createdTime: extractIsoDate(todo.createdTime),
-                    lastUpdated: todo.lastUpdated
-                }
-            }))
+            setAllTodos(fetchedTodos
+                .map((todo: FetchedTodo) => {
+                    return {...todo,
+                        createdTime: extractIsoDate(todo.createdTime),
+                        lastUpdated: todo.lastUpdated
+                }})
+                .sort((t1, t2) => t1.lastUpdated >= t2.lastUpdated ? -1 : 1)
+            )
         }
     }, [fetchedTodos])
 
