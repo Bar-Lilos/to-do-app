@@ -1,6 +1,6 @@
-import { Todo } from 'models/Todo';
 import React, { useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
+import { Todo } from 'models/Todo';
  
 type Props = {
     todo: Todo
@@ -9,13 +9,12 @@ type Props = {
 }
 
 const TodoContainer: React.FC<Props> = ({todo, editTodo, deleteTodo}) => {
-    
     return (
         <div className='col-12 d-flex flex-row todo-container mb-4'>
             <div className='col-9'>
                 <div>{todo.text}</div>
                 <div>{todo.completed.toString()}</div>
-                <div>{todo.createdTime!.toString()}</div>
+                <div>{todo.creationDate}</div>
                 <div>{JSON.stringify(todo.tags)}</div>
 
             </div>

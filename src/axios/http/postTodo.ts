@@ -1,10 +1,11 @@
 import axiosConfig from '../axiosConfig';
+import { Todo } from 'models/Todo';
 
-const postTodo = (newTodo: string) => {
+const postTodo = (newTodo: Todo) => {
     const response = axiosConfig({
         method: 'post',
         url: `api/todo`,
-        data: {text: newTodo}
+        data: newTodo
     })
     .then((response) => response.data)
     .catch((error) => {throw error});
