@@ -3,7 +3,6 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Todo } from 'models/Todo';
 
 import EditTodoModal from 'components/modals/EditTodoModal';
-import AddTodoModal from 'components/modals/AddTodoModal';
 import DeleteTodoModal from 'components/modals/DeleteTodoModal';
  
 type Props = {

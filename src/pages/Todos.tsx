@@ -2,7 +2,7 @@ import React from 'react';
 import { Todo } from 'models/Todo';
 import useTodos from 'hooks/useTodos';
 import TodosList from 'components/TodosList';
-import TodoModal from 'components/TodoModal';
+import TodoModal from 'components/modals/TodoModal';
 import TodoFilter from 'components/TodoFilter';
  
 const Todos: React.FC = () => {
