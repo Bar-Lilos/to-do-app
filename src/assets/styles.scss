@@ -3,38 +3,58 @@ html {
 }
 
 body {
-    margin: 50px 100px;
-    padding: 0px;
     font-family: sans-serif;
     direction: ltr;
 }
 
+.todo-page {
+    margin-top: 50px;
+    align-content: center;
+}
+
 .todos-list {
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 15px;
+    width: 550px;
+    height: 700px;
 
     .todos-header{
         border-bottom: 2px solid black;
 
         .todos-title {
-            text-align: center;
-            padding-right: 86px;
-            padding-bottom: 30px;
             font-size: 30px;
+            height: 60px;
         }
     }
 
     .todos-content {
-        max-height: 520px;
+        height: 460px;
+
+        .todo-container {
+            width: 546px;
+
+            .todo-completed {
+                height: 30px;
+                width: 30px;
+            }
+
+            .todo-not-completed {
+                height: 30px;
+                width: 30px;
+            }
+
+            .todo-name {
+                width: 320px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
     }
 }
 
-.todo-container {
-    border: 2px solid black;
-}
-
 .todo-filter-text {
-    width: 425px;
+    width: 225px;
 }
 
 .todo-completed-checkbox {

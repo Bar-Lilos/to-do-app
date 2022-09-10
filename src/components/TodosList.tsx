@@ -20,22 +20,22 @@ const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) =
     }, [todos])
 
     return (
-        <div className='d-flex flex-column todos-list p-5'>
-            <div className='d-flex flex-row todos-header justify-content-between mb-4'>
+        <div className='d-flex flex-column todos-list'>
+            <div className='d-flex flex-column todos-header'>
                 <Button
                     id='newTodo'
                     name='newTodo'
-                    className='btn-success col-2 mt-1 h-50'
+                    className='col-1 btn-success p-0 mt-3 ms-4'
                     onClick={addNewTodo}
                 >
                     +
                 </Button>
 
-                <div className='col-10 todos-title'>My Todos</div>
+                <div className='col-12 text-center todos-title'>My Tasks</div>
             </div>
 
             <div className='d-flex flex-column'>
-                <div className='todos-content'>
+                <div className='col-12 align-self-center mt-4 todos-content'>
                     {
                         todos
                         .slice(fromIndex, fromIndex + TodoDisplay.maxTodosPerPage)

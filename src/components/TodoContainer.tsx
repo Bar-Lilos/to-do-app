@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Label, UncontrolledTooltip } from 'reactstrap';
 import { Todo } from 'models/Todo';
  
 type Props = {
@@ -10,30 +10,52 @@ type Props = {
 
 const TodoContainer: React.FC<Props> = ({todo, editTodo, deleteTodo}) => {
     return (
-        <div className='col-12 d-flex flex-row todo-container mb-4'>
-            <div className='col-9'>
-                <div>{todo.text}</div>
-                <div>{todo.completed.toString()}</div>
+        <div className='col-12 d-flex flex-row px-4 mb-5 ps-3 todo-container'>
+            <UncontrolledTooltip
+                placement='left'
+                target={"todo-name-" + todo.id}
+            >
+                <div>{todo.completed ? 'Completed' : 'Not Completed'}</div>
                 <div>{todo.createdTime}</div>
+            </UncontrolledTooltip>
+
+            <div className='d-flex flex-row todo-details me-3'>
+                {
+                    todo.completed
+                    ?
+                    <img
+                        id={"todo-name-" + todo.id}
+                        src={process.env.PUBLIC_URL + '/completed.png'}
+                        className='todo-completed me-2'
+                    />
+                    :
+                    <img
+                        id={"todo-name-" + todo.id}
+                        src={process.env.PUBLIC_URL + '/notCompleted.png'}
+                        className='todo-not-completed me-2'
+                    />
+                }
+                
+                <div id="todo-name" className='align-self-center todo-name'>{todo.text}</div>
             </div>
             
-            <div className='col-3 d-flex flex-row'>
+            <div className='col-7 me-0 align-self-center todo-actions'>
                 <Button
-                    id='deleteTodo'
-                    name='deleteTodo'
-                    className='col-5 btn-danger me-2 h-50 mt-4'
-                    onClick={deleteTodo}
+                    id='editTodo'
+                    name='editTodo'
+                    className='btn-success me-3'
+                    onClick={editTodo}
                 >
-                    Delete
+                    Edit
                 </Button>
 
                 <Button
                     id='deleteTodo'
                     name='deleteTodo'
-                    className='col-5 btn-success h-50 mt-4'
-                    onClick={editTodo}
+                    className='btn-danger'
+                    onClick={deleteTodo}
                 >
-                    Edit
+                    Delete
                 </Button>
             </div>
         </div>

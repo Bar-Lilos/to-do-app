@@ -11,7 +11,7 @@ type Props = {
 
 const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, currentIndex, totalTodos}) => {       
     return (
-        <div className='d-flex flex-row justify-content-center'>
+        <div className='d-flex flex-row justify-content-center mt-5'>
             <Button
                 id='newTodo'
                 name='newTodo'
