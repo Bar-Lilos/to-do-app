@@ -6,11 +6,10 @@ type Props = {
     moveToNextPage: () => void
     moveToPreviousPage: () => void
     currentIndex: number
-    finalIndex: number
     totalTodos: number
 }
 
-const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, currentIndex, finalIndex, totalTodos}) => {       
+const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, currentIndex, totalTodos}) => {       
     return (
         <div className='d-flex flex-row justify-content-center'>
             <Button
@@ -28,7 +27,7 @@ const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, 
                 name='newTodo'
                 className='btn-success col-2 mb-4'
                 onClick={moveToNextPage}
-                disabled={finalIndex === totalTodos}
+                disabled={currentIndex + TodoDisplay.maxTodosPerPage >= totalTodos}
             >
                 Next
             </Button>

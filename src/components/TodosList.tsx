@@ -14,15 +14,6 @@ type Props = {
 
 const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) => {   
     const [fromIndex, setFromIndex] = useState(TodoDisplay.firstIndex);
-    const [toIndex, setToIndex] = useState(TodoDisplay.maxTodosPerPage - 1);
-
-    useEffect(() => {
-        fromIndex + TodoDisplay.maxTodosPerPage >= todos.length
-        ?
-        setToIndex(todos.length)
-        :
-        setToIndex(fromIndex + TodoDisplay.maxTodosPerPage)
-    }, [fromIndex])
 
     useEffect(() => {
         setFromIndex(TodoDisplay.firstIndex);
@@ -47,7 +38,7 @@ const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) =
                 <div className='mh-100 h-100 todos-content'>
                     {
                         todos
-                        .slice(fromIndex, toIndex)
+                        .slice(fromIndex, fromIndex + TodoDisplay.maxTodosPerPage)
                         .map((todo: Todo) => (
                             <TodoContainer
                                 key={todo.id}
@@ -63,7 +54,6 @@ const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) =
                     moveToNextPage={() => setFromIndex(fromIndex + TodoDisplay.maxTodosPerPage)}
                     moveToPreviousPage={() => setFromIndex(fromIndex - TodoDisplay.maxTodosPerPage)}
                     currentIndex={fromIndex}
-                    finalIndex={toIndex}
                     totalTodos={todos.length}
                 />
             </div>
