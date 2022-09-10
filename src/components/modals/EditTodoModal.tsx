@@ -16,11 +16,11 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
 
             <ModalBody>
                 <div className='col-12 d-flex flex-row'>
-                    <Label for="todoName" className='col-3 me-0'>Task Name:</Label>
+                    <Label for="editedTodoName" className='col-3 me-0 align-self-end'>Task Name:</Label>
 
                     <Input
-                        id='todoName'
-                        name='todoName'
+                        id='editedTodoName'
+                        name='editedTodoName'
                         type='text'
                         className='edited-todo-name'
                         invalid={editedTodo.text === ''}
@@ -36,8 +36,8 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                         <Label for="todoCompleted" className='mt-4'>Completed?</Label>
 
                         <Input
-                            id='todoCompleted'
-                            name='todoCompleted'
+                            id='editedTodoCompleted'
+                            name='editedTodoCompleted'
                             type='checkbox'
                             className='todo-completed-checkbox'
                             checked={editedTodo.completed}

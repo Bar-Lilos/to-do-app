@@ -35,7 +35,7 @@ const TodosList: React.FC<Props> = ({todos, editTodo, deleteTodo, addNewTodo}) =
             </div>
 
             <div className='d-flex flex-column'>
-                <div className='mh-100 h-100 todos-content'>
+                <div className='todos-content'>
                     {
                         todos
                         .slice(fromIndex, fromIndex + TodoDisplay.maxTodosPerPage)

@@ -21,7 +21,7 @@ const Todos: React.FC = () => {
     } = useTodos();
         
     return (
-        <div className='col-12 d-felx flex-column'>
+        <div className='col-12 d-felx flex-column todo-page'>
             <TodoFilter
                 todoQuery={todoQuery}
                 setTodoQuery={setTodoQuery}

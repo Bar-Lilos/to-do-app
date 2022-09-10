@@ -13,13 +13,15 @@ const DeleteTodoModal: React.FC<Props> = ({removeTodo, toggle}) => {
             <ModalHeader>Warning</ModalHeader>
 
             <ModalBody>
-                Are you sure you want to delete?
+                <div className='row justify-content-center mb-3'>
+                    Are you sure you want to delete?
+                </div>
 
-                <div className='d-flex flex-row text-center'>
+                <div className='d-flex flex-row justify-content-center'>
                     <Button
                         id='removeTodo'
                         name='removeTodo'
-                        className='btn-success'
+                        className='btn-success me-5'
                         onClick={() => removeTodo()}
                     >
                         Yes
