@@ -4,6 +4,7 @@ export interface Todo {
   completed: boolean
   createdTime: string
   lastUpdated: Date
+  deadline: Date
   tags?: TodoTag[]
 }
 

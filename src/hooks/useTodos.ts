@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { FetchedTodo, Todo } from 'models/Todo';
 import extractIsoDate from 'functions/extractIsoDate';
+import getTomorrow from 'functions/getTomorrow';
 import getAllTodos from 'axios/http/getAllTodos';
 import postTodo from 'axios/http/postTodo';
 import patchTodo from 'axios/http/patchTodo';
@@ -11,8 +12,9 @@ const useTodos = () => {
     const initialTodo: Todo = {
         text: '',
         completed: false,
-        createdTime: extractIsoDate(),
-        lastUpdated: new Date()
+        createdTime: extractIsoDate(false),
+        lastUpdated: new Date(),
+        deadline: getTomorrow()
     }
 
     const [allTodos, setAllTodos] = useState<Todo[]>();
@@ -33,15 +35,15 @@ const useTodos = () => {
         setModal(false);
         setShouldDelete(false);
 
-        if (!lodaingTodos && fetchedTodos) {            
+        if (!lodaingTodos && fetchedTodos) {   
             setAllTodos(fetchedTodos
                 .map((todo: FetchedTodo) => {
                     return {...todo,
-                        createdTime: extractIsoDate(todo.createdTime),
-                        lastUpdated: todo.lastUpdated
+                        createdTime: extractIsoDate(false, todo.createdTime),
+                        lastUpdated: new Date(todo.lastUpdated),
+                        deadline: new Date(todo.deadline)
                 }})
                 .sort((t1, t2) => t1.lastUpdated >= t2.lastUpdated ? -1 : 1)
-                .slice()
             )
         }
     }, [fetchedTodos])

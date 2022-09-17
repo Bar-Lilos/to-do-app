@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Label, Input, Button, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
-import { useQuery } from 'react-query';
 import { Todo } from 'models/Todo';
+import extractIsoDate from 'functions/extractIsoDate';
+import getTomorrow from 'functions/getTomorrow';
  
 type Props = {
     editedTodo: Todo
@@ -16,7 +17,7 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
 
             <ModalBody>
                 <div className='col-12 d-flex flex-row'>
-                    <Label for="editedTodoName" className='col-3 me-0 align-self-end'>Task Name:</Label>
+                    <Label for="editedTodoName" className='col-3 me-0 align-self-end'>Name:</Label>
 
                     <Input
                         id='editedTodoName'
@@ -27,6 +28,22 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                         valid={editedTodo.text !== ''}
                         value={editedTodo.text}
                         onChange={(e: React.FormEvent<HTMLInputElement>) => setEditedTodo({...editedTodo, text: e.currentTarget.value})}
+                    />
+                </div>
+
+                <div className='col-12 d-flex flex-row mt-4'>
+                    <Label for="editedTodoName" className='col-3 me-0 align-self-end'>Deadline:</Label>
+
+                    <Input
+                        id='editedTodoDeadline'
+                        name='editedTodoDeadline'
+                        type='date'
+                        className='edited-todo-deadline'
+                        invalid={editedTodo.deadline.getDate() < getTomorrow().getDate()}
+                        valid={editedTodo.deadline.getDate() >= getTomorrow().getDate()}
+                        value={extractIsoDate(true, editedTodo.deadline.toString())}
+                        required={true}
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => setEditedTodo({...editedTodo, deadline: new Date(e.currentTarget.value)})}
                     />
                 </div>
 
@@ -53,7 +70,7 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                     name='updateTodo'
                     className='btn-success'
                     onClick={saveTodo}
-                    disabled={editedTodo.text === ''}
+                    disabled={editedTodo.text === '' || editedTodo.deadline.getDate() < getTomorrow().getDate()}
                 >
                     Save
                 </Button>

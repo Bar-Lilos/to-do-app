@@ -1,10 +1,10 @@
 // **************************************************
 // function for converting dates to ISO 8601 format
-// Input: date
+// Input: date, boolean for determining the format
 // Output: string (dd/mm/yyyy hh:mm:ss)
 // **************************************************
 
-const extractIsoDate = (date?: string) => {
+const extractIsoDate = (isDeadline: boolean, date?: string) => {
     const dateFormat = date ? new Date(date) : new Date();
 
     const day = dateOffset(dateFormat.getUTCDate());
@@ -14,7 +14,13 @@ const extractIsoDate = (date?: string) => {
     const minutes = dateOffset(dateFormat.getMinutes());
     const seconds = dateOffset(dateFormat.getSeconds());
 
-    const formattedDate = day + '/' + month + '/' + year + " " + hours + ":" + minutes + ":" + seconds; 
+    const formattedDate =
+    isDeadline
+    ?
+    year + '-' + month + '-' + day
+    :
+    day + '/' + month + '/' + year + " " + hours + ":" + minutes + ":" + seconds
+
     return formattedDate;
 }
 
