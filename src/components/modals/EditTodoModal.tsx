@@ -3,6 +3,7 @@ import { Label, Input, Button, ModalBody, ModalHeader, ModalFooter } from 'react
 import { Todo } from 'models/Todo';
 import extractIsoDate from 'functions/extractIsoDate';
 import getTomorrow from 'functions/getTomorrow';
+import compareDates from 'functions/compareDates';
  
 type Props = {
     editedTodo: Todo
@@ -24,8 +25,8 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                         name='editedTodoName'
                         type='text'
                         className='edited-todo-name'
-                        invalid={editedTodo.text === ''}
                         valid={editedTodo.text !== ''}
+                        invalid={editedTodo.text === ''}
                         value={editedTodo.text}
                         onChange={(e: React.FormEvent<HTMLInputElement>) => setEditedTodo({...editedTodo, text: e.currentTarget.value})}
                     />
@@ -39,8 +40,8 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                         name='editedTodoDeadline'
                         type='date'
                         className='edited-todo-deadline'
-                        invalid={editedTodo.deadline.getDate() < getTomorrow().getDate()}
-                        valid={editedTodo.deadline.getDate() >= getTomorrow().getDate()}
+                        valid={compareDates(editedTodo.deadline, getTomorrow())}
+                        invalid={!compareDates(editedTodo.deadline, getTomorrow())}
                         value={extractIsoDate(true, editedTodo.deadline.toString())}
                         required={true}
                         onChange={(e: React.FormEvent<HTMLInputElement>) => setEditedTodo({...editedTodo, deadline: new Date(e.currentTarget.value)})}
@@ -70,7 +71,7 @@ const EditTodoModal: React.FC<Props> = ({editedTodo, setEditedTodo, saveTodo}) =
                     name='updateTodo'
                     className='btn-success'
                     onClick={saveTodo}
-                    disabled={editedTodo.text === '' || editedTodo.deadline.getDate() < getTomorrow().getDate()}
+                    disabled={editedTodo.text === '' || !compareDates(editedTodo.deadline, getTomorrow())}
                 >
                     Save
                 </Button>
