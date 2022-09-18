@@ -11,6 +11,7 @@ const Todos: React.FC = () => {
     const {
         initialTodo,
         filteredTodos,
+        setFilteredTodos,
         todoQuery,
         setTodoQuery,
         editedTodo,
@@ -54,7 +55,8 @@ const Todos: React.FC = () => {
                 {
                     filteredTodos &&
                     <TodosList
-                        todos={filteredTodos}
+                        filteredTodos={filteredTodos}
+                        setFilteredTodos={setFilteredTodos}
                         filterDate={filterDate}
                         setFilterDate={setFilterDate}
                         editTodo={(todo: Todo) => {

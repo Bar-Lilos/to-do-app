@@ -4,10 +4,11 @@ import { Todo } from 'models/Todo';
 import { TodoDisplay } from 'models/TodoDisplay';
 import TodoContainer from 'components/TodoContainer';
 import PaginationArrows from 'components/pagination/PaginationArrows';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DragDropContext, Draggable, Droppable, DroppableProps } from 'react-beautiful-dnd';
  
 type Props = {
-    todos: Todo[]
+    filteredTodos: Todo[]
+    setFilteredTodos: (todos: Todo[]) => void
     filterDate?: Date
     setFilterDate: (date?: Date) => void
     editTodo: (todo: Todo) => void
@@ -15,12 +16,21 @@ type Props = {
     addNewTodo: () => void
 }
 
-const TodosList: React.FC<Props> = ({todos, filterDate, setFilterDate, editTodo, deleteTodo, addNewTodo}) => {   
+const TodosList: React.FC<Props> = ({filteredTodos, setFilteredTodos, filterDate, setFilterDate, editTodo, deleteTodo, addNewTodo}) => {   
     const [fromIndex, setFromIndex] = useState(TodoDisplay.firstIndex);
 
     useEffect(() => {
         setFromIndex(TodoDisplay.firstIndex);
-    }, [todos])
+    }, [filteredTodos])
+
+    const handleDrop = (droppedItem: any) => {
+        if (!droppedItem.destination) return;
+
+        var updatedList = [...filteredTodos];
+        const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
+        updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
+        setFilteredTodos(updatedList);
+    };
 
     return (
         <div className='d-flex flex-column todos-list'>
@@ -51,25 +61,46 @@ const TodosList: React.FC<Props> = ({todos, filterDate, setFilterDate, editTodo,
 
             <div className='d-flex flex-column'>
                 <div className='col-12 align-self-center mt-4 todos-content'>
-                    {
-                        todos
-                        .slice(fromIndex, fromIndex + TodoDisplay.maxTodosPerPage)
-                        .map((todo: Todo) => (
-                            <TodoContainer
-                                key={todo.id}
-                                todo={todo}
-                                editTodo={() => editTodo(todo)}
-                                deleteTodo={() => deleteTodo(todo)}
-                            />
-                        ))
-                    }
+                    <DragDropContext onDragEnd={handleDrop}>
+                        <Droppable droppableId='todo-list'>
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {
+                                        filteredTodos
+                                        .slice(fromIndex, fromIndex + TodoDisplay.maxTodosPerPage)
+                                        .map((todo: Todo, index: number) => (
+                                            <Draggable key={todo.id} draggableId={todo.id!.toString()} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.dragHandleProps}
+                                                        {...provided.draggableProps}
+                                                    >
+                                                        <TodoContainer
+                                                            key={todo.id}
+                                                            todo={todo}
+                                                            editTodo={() => editTodo(todo)}
+                                                            deleteTodo={() => deleteTodo(todo)}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))
+                                    }
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
                 
                 <PaginationArrows
                     moveToNextPage={() => setFromIndex(fromIndex + TodoDisplay.maxTodosPerPage)}
                     moveToPreviousPage={() => setFromIndex(fromIndex - TodoDisplay.maxTodosPerPage)}
                     currentIndex={fromIndex}
-                    totalTodos={todos.length}
+                    totalTodos={filteredTodos.length}
                 />
             </div>
         </div>

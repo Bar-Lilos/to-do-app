@@ -133,6 +133,7 @@ const useTodos = () => {
     return {
         initialTodo,
         filteredTodos,
+        setFilteredTodos,
         todoQuery,
         setTodoQuery,
         editedTodo,
