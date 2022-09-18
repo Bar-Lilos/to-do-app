@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { FetchedTodo, Todo } from 'models/Todo';
 import extractIsoDate from 'functions/extractIsoDate';
 import getTomorrow from 'functions/getTomorrow';
+import isDatesEqual from 'functions/isDatesEqual';
 import getAllTodos from 'axios/http/getAllTodos';
 import postTodo from 'axios/http/postTodo';
 import patchTodo from 'axios/http/patchTodo';
@@ -18,6 +19,9 @@ const useTodos = () => {
     }
 
     const [allTodos, setAllTodos] = useState<Todo[]>();
+    const [allTodosDeadlines, setAllTodosDeadlines] = useState<Date[]>();
+    const [filteredTodos, setFilteredTodos] = useState<Todo[]>();
+    const [filterDate, setFilterDate] = useState<Date>();
     const [todoQuery, setTodoQuery] = useState<string>(``);
     const [editedTodo, setEditedTodo] = useState<Todo>(initialTodo);
     const [shouldDelete, setShouldDelete] = useState<boolean>(false);
@@ -35,7 +39,7 @@ const useTodos = () => {
         setModal(false);
         setShouldDelete(false);
 
-        if (!lodaingTodos && fetchedTodos) {   
+        if (!lodaingTodos && fetchedTodos) { 
             setAllTodos(fetchedTodos
                 .map((todo: FetchedTodo) => {
                     return {...todo,
@@ -45,12 +49,41 @@ const useTodos = () => {
                 }})
                 .sort((t1, t2) => t1.lastUpdated >= t2.lastUpdated ? -1 : 1)
             )
+            
+            setFilteredTodos(fetchedTodos
+                .map((todo: FetchedTodo) => {
+                    return {...todo,
+                        createdTime: extractIsoDate(false, todo.createdTime),
+                        lastUpdated: new Date(todo.lastUpdated),
+                        deadline: new Date(todo.deadline)
+                }})
+                .sort((t1, t2) => t1.lastUpdated >= t2.lastUpdated ? -1 : 1)
+            )
+
+            const allDeadlines = [...fetchedTodos.map(todo => {
+                const deadline = new Date(todo.deadline);
+                deadline.setHours(0, 0, 0, 0);
+                return deadline;
+            })];
+            setAllTodosDeadlines(allDeadlines);
         }
     }, [fetchedTodos])
 
     useEffect(() => {
         refetchTodos();
     }, [todoQuery])
+
+    useEffect(() => {
+        filterByDate();
+    }, [filterDate])
+
+    const filterByDate = () => {
+        filterDate
+        ?
+        setFilteredTodos(allTodos?.filter(todo => isDatesEqual(todo.deadline, filterDate!)))
+        :
+        setFilteredTodos(allTodos)
+    }
 
     const saveTodo = async () => {
         shouldDelete
@@ -99,7 +132,7 @@ const useTodos = () => {
 
     return {
         initialTodo,
-        allTodos,
+        filteredTodos,
         todoQuery,
         setTodoQuery,
         editedTodo,
@@ -109,7 +142,10 @@ const useTodos = () => {
         modal,
         setModal,
         toggleModal,
-        saveTodo
+        saveTodo,
+        filterDate,
+        setFilterDate,
+        allTodosDeadlines
     }
 }
 

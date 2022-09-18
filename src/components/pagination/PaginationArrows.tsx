@@ -9,7 +9,7 @@ type Props = {
     totalTodos: number
 }
 
-const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, currentIndex, totalTodos}) => {       
+const PaginationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, currentIndex, totalTodos}) => {       
     return (
         <div className='d-flex flex-row justify-content-center mt-5'>
             <Button
@@ -35,4 +35,4 @@ const NavigationArrows: React.FC<Props> = ({moveToNextPage, moveToPreviousPage, 
     );
 }
 
-export default NavigationArrows;
+export default PaginationArrows;

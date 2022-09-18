@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Todos from 'pages/Todos';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-calendar/dist/Calendar.css';
 import 'assets/styles.scss';
 
 const queryClient = new QueryClient();

@@ -1,0 +1,15 @@
+.calendar {
+    position: relative;
+    bottom: 700px;
+    right: 425px;
+    height: 310px;
+    width: 300px;
+}
+
+.calendar-day {
+    color: black;
+}
+
+.calendar-todos-day {
+    background-color: rgb(135, 221, 156);
+}
